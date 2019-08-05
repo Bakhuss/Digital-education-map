@@ -25,25 +25,21 @@
                     <img src="/resources/favicon.ico" width="30" height="30" class="d-inline-block align-top" alt="">
                     Digital Education Map
                 </a>
-                <ul class="navbar-nav mr-auto">
-                    <@security.authorize access="isAuthenticated()">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/">Организации</a>
+                            <a class="nav-link" href="/">Карта</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Выход</a>
-                        </li>
-                    </@security.authorize>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="место для">
-                    <input class="form-control mr-sm-2" type="text" placeholder="элементов фильтрации">
-                    <button class="btn btn-outline-success my-2 my-sm-0 disabled" type="submit" disabled>фильтровать</button>
-                </form>
+                        <@security.authorize access="isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Выход</a>
+                            </li>
+                        </@security.authorize>
+                    </ul>
+                </div>
             </nav>
         </header>
         <main role="main" class="h-100">
-                <@content/>
+            <@content/>
         </main>
 
         <footer class="footer fixed-bottom mt-auto py-1 bg-dark">

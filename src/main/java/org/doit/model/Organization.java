@@ -1,11 +1,19 @@
 package org.doit.model;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +25,7 @@ public class Organization {
     @Id
     @SequenceGenerator(name = "organization_gen", sequenceName = "organization_seq", allocationSize = 1, initialValue = 1000)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organization_gen")
-    private Long id;
+    private long id;
 
     private String name;
 
@@ -36,10 +44,21 @@ public class Organization {
     @MapKeyClass(ContactType.class)
     @MapKeyEnumerated(EnumType.STRING)
     @Column(name = "value")
+    @JsonIgnore
     private Map<ContactType, String> contacts;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "organization", orphanRemoval = true)
+    @JsonIgnore
     private List<Address> addresses = new ArrayList<>();
+
+    public Organization(long id, String name, String description) {
+        this(name, description);
+        this.id = id;
+    }
+
+    public Organization(String name, String description) {
+        this(name, description, List.of(), Map.of());
+    }
 
     public Organization(String name, String description, Collection<OrganizationCategory> categories, Map<ContactType, String> contacts) {
         this.name = name;
@@ -48,20 +67,12 @@ public class Organization {
         setContacts(contacts);
     }
 
-    public Organization(Long id, String name, String description, Collection<OrganizationCategory> categories, Map<ContactType, String> contacts) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        setCategories(categories);
-        setContacts(contacts);
-    }
-
-    public Organization(String name, String description, Collection<OrganizationCategory> categories, Map<ContactType, String> contacts, List<Address> addresses) {
-        this.name = name;
-        this.description = description;
-        setCategories(categories);
-        setContacts(contacts);
-        this.addresses = addresses;
+    public Organization(Organization o) {
+        this.name = o.getName();
+        this.description = o.getDescription();
+        this.categories = o.getCategories();
+        this.contacts = o.getContacts();
+        this.addresses = o .getAddresses();
     }
 
     private void setCategories(Collection<OrganizationCategory> categories) {
@@ -70,5 +81,14 @@ public class Organization {
 
     public void addAddress(Address address) {
         this.addresses.add(address);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Organization)) return false;
+
+        return getId() == ((Organization) o).getId();
+
     }
 }

@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface OrganizationService {
 
-    Organization create(Organization organization);
+    Organization createOrUpdate(Organization organization);
 
-    void delete(Long id) throws RuntimeException;
+    void delete(long id) throws RuntimeException;
 
-    Organization get(Long id);
+    Organization get(long id);
 
     List<Organization> getAll();
+
+    List<Organization> getAllWithAddressesAndContacts();
 }

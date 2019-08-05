@@ -1,8 +1,17 @@
 package org.doit.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +22,7 @@ public class Address {
     @Id
     @SequenceGenerator(name = "address_gen", sequenceName = "address_seq", allocationSize = 1, initialValue = 1000)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_gen")
-    private Long id;
+    private long id;
 
     private String city;
 
@@ -35,10 +44,7 @@ public class Address {
     }
 
     public Address(String city, String address, Double latitude, Double longitude, Organization organization) {
-        this.city = city;
-        this.address = address;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this(city, address, latitude, longitude);
         this.organization = organization;
     }
 }
