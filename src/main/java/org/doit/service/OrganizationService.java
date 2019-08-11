@@ -1,6 +1,7 @@
 package org.doit.service;
 
 import org.doit.model.Organization;
+import org.doit.model.OrganizationCategory;
 
 import java.util.List;
 
@@ -15,4 +16,8 @@ public interface OrganizationService {
     List<Organization> getAll();
 
     List<Organization> getAllWithAddressesAndContacts();
+
+    List<Organization> getAllByCity(String city);
+
+    List<Organization> getAllByCategory(OrganizationCategory category);
 }

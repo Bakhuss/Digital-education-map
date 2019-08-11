@@ -72,7 +72,7 @@ public class Organization {
         this.description = o.getDescription();
         this.categories = o.getCategories();
         this.contacts = o.getContacts();
-        this.addresses = o .getAddresses();
+        this.addresses = o.getAddresses();
     }
 
     private void setCategories(Collection<OrganizationCategory> categories) {
